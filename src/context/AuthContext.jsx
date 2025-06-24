@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.clear();
     setUser(null);
+    alert("Logout successful");
     navigate('/login');
   };
 
