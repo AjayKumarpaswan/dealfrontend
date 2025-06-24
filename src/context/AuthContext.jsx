@@ -14,14 +14,29 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (form) => {
-    const res = await API.post('/auth/login', form);
-    localStorage.setItem('token', res.data.token);
-    const payload = JSON.parse(atob(res.data.token.split('.')[1]));
-    const currentUser = { id: payload.id, role: payload.role };
-    localStorage.setItem('user', JSON.stringify(currentUser));
-    setUser(currentUser);
-    alert("login successfully")
-    navigate('/deals');
+    try {
+      const res = await API.post('/auth/login', form);
+      const token = res.data.token;
+
+      // Decode token payload
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      const currentUser = {
+        _id: payload.id,
+        role: payload.role,
+        token: token // 👈 ADD TOKEN TO CONTEXT USER
+      };
+
+      localStorage.setItem('user', JSON.stringify(currentUser));
+      localStorage.setItem('token', token);
+      setUser(currentUser);
+
+      alert("Login successful");
+      navigate('/deals');
+    } catch (error) {
+      alert("Login failed");
+      console.error(error);
+    }
   };
 
   const logout = () => {
