@@ -10,6 +10,7 @@
   "preview": "vite preview",
   "start": "vite preview --port $PORT --host 0.0.0.0"
 }
+
 ,
   "dependencies": {
     "@heroicons/react": "^2.2.0",
