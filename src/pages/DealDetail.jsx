@@ -15,7 +15,7 @@ const DealDetail = () => {
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (!user || !user.token) {
+    if (!user || !user._id) {
       toast.error('Please login to view deals');
       navigate('/login');
       return;
@@ -53,36 +53,47 @@ const DealDetail = () => {
     }
   };
 
-  if (loading) return <div className="p-4 text-gray-600">Loading...</div>;
-
-  if (!deal) return <div className="p-4 text-red-600">Deal not found.</div>;
+  if (loading) return <div className="text-center py-10 text-gray-600">Loading...</div>;
+  if (!deal) return <div className="text-center py-10 text-red-600">Deal not found.</div>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white mt-10 p-6 rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Deal Details</h1>
-      <p><strong>Title:</strong> {deal.title}</p>
-      <p><strong>Description:</strong> {deal.description}</p>
-      <p><strong>Price:</strong> ₹{deal.price}</p>
-      <p><strong>Seller ID:</strong> {deal.seller}</p>
-      <p><strong>Status:</strong> {deal.status || 'Not set'}</p>
-      {/* <p><strong>Seller Username:</strong> {deal.seller?.username}</p> */}
+    <div
+      className="min-h-screen bg-cover bg-center flex items-center justify-center px-4"
+      style={{ backgroundImage: "url('https://source.unsplash.com/1600x900/?business,technology')" }}
+    >
+      <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-xl p-8 max-w-2xl w-full">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 text-center">Deal Details</h1>
 
-      <div className="mt-6">
-        <label htmlFor="status" className="block mb-1 font-medium text-gray-700">Update Status</label>
-        <input
-          type="text"
-          id="status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded w-full"
-        />
-        <button
-          onClick={handleStatusUpdate}
-          disabled={updating}
-          className={`mt-3 bg-blue-600 text-white px-4 py-2 rounded ${updating ? 'opacity-60' : 'hover:bg-blue-700'}`}
-        >
-          {updating ? 'Updating...' : 'Update Status'}
-        </button>
+        <div className="space-y-4 text-gray-700 text-lg">
+          <p><span className="font-semibold">Title:</span> {deal.title}</p>
+          <p><span className="font-semibold">Description:</span> {deal.description}</p>
+          <p><span className="font-semibold">Price:</span> ₹{deal.price}</p>
+          <p><span className="font-semibold">Seller ID:</span> {deal.seller}</p>
+          <p><span className="font-semibold">Status:</span> {deal.status || 'Not set'}</p>
+        </div>
+
+        <div className="mt-8">
+          <label htmlFor="status" className="block text-sm font-medium text-gray-600 mb-1">
+            Update Status
+          </label>
+          <input
+            type="text"
+            id="status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            placeholder="e.g., In Progress, Completed"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+          <button
+            onClick={handleStatusUpdate}
+            disabled={updating}
+            className={`mt-4 w-full bg-blue-600 text-white py-3 rounded-md shadow-sm font-medium transition duration-200 ${
+              updating ? 'opacity-60 cursor-not-allowed' : 'hover:bg-blue-700'
+            }`}
+          >
+            {updating ? 'Updating...' : 'Update Status'}
+          </button>
+        </div>
       </div>
     </div>
   );
